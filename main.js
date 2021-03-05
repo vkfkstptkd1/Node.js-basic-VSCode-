@@ -97,10 +97,11 @@ var app = http.createServer(function(request, response) { //nodejs로 웹브라�
             var post = qs.parse(body);
             var title = post.title;
             var description = post.description;
+            fs.writeFile(`data/${title}`, description, 'utf8', function(err) {
+                response.writeHead(302, { Location: `/?id=${title}` }); //파일이 전송되면 qs가 title이 되는 페이지로 사용자를 강제로 이동.(리다이렉션)
+                response.end();
+            })
         });
-        response.writeHead(200);
-        response.end('sucess');
-
     } else {
         response.writeHead(404);
         response.end('Not Found');
